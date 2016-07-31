@@ -17,7 +17,11 @@ func main() {
 		panic(err)
 	}
 	for true {
-		distanceOMatic.Distance_cm()
+		cm, err := distanceOMatic.Distance_cm()
+		if err != nil {
+			panic(err)
+		}
+		fmt.Println("Cm:", cm)
 	}
 	fmt.Println("Woah nelly!")
 }
