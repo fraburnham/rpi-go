@@ -2,7 +2,8 @@ package main
 
 import (
 	"fmt"
-	"rpi/gpio"
+	"gpio"
+	"gpio/sysfs"
 	"time"
 )
 
@@ -20,7 +21,7 @@ func timeoutGenerator(ctrlCh chan bool, timeoutCh chan bool, timeout time.Durati
 	}
 }
 
-func blink(ctrlCh chan bool, timeoutCh chan bool, pin *gpio.RpiGPIO) {
+func blink(ctrlCh chan bool, timeoutCh chan bool, pin gpio.GPIO) {
 	fmt.Println("Starting blink")
 	offset := 0
 
@@ -44,7 +45,7 @@ func main() {
 	ctrlCh := make(chan bool) //oh snap, I bet channels need to be closed
 	timeoutCh := make(chan bool)
 	timeout := time.Duration(1 * time.Second)
-	pin, err := gpio.NewRpiGPIO(4)
+	pin, err := sysfs.NewSysfsOutput(4)
 	defer pin.Close()
 
 	if err != nil {
